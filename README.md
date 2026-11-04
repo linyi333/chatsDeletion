@@ -9,6 +9,30 @@ Current version: **0.1.8**
 > Deletion is permanent. Test with disposable conversations before using the
 > extension on anything important.
 
+## Tested scope
+
+This project currently has a deliberately narrow support boundary:
+
+- **Browser:** Google Chrome desktop, loaded as an unpacked Manifest V3
+  extension.
+- **Website:** ChatGPT web at `https://chatgpt.com/`.
+- **Language:** the English destructive controls **Delete** and **Delete chat**.
+- **Workflow:** conversations already loaded in ChatGPT's visible sidebar.
+
+It has **not** been tested or claimed to work with:
+
+- Firefox, Safari, Edge, Brave, or other Chromium-based browsers;
+- the ChatGPT desktop or mobile applications;
+- Claude, Gemini, Grok, Copilot, or any other chat product;
+- non-English ChatGPT deletion controls; or
+- conversations that have not been loaded into the sidebar.
+
+The current automated suite contains 14 local tests. The basic multi-select,
+typed batch confirmation, per-conversation ChatGPT confirmation, sequential
+deletion, and current **Delete chat** label have also been exercised manually in
+Chrome. Browser and ChatGPT UI updates require retesting because this extension
+depends on the visible page structure.
+
 ## Why this approach
 
 ChatGPT currently provides a visible per-conversation flow:
@@ -128,6 +152,9 @@ private ChatGPT endpoint calls. The pending queue never leaves the browser.
 
 ## Limitations
 
+- Support is currently limited to the tested Chrome desktop and ChatGPT web
+  environment described above. Other browsers and chat services are out of
+  scope for this version.
 - Only conversations currently loaded in the sidebar can be selected. The
   extension does not fetch or scroll through older history.
 - Version 0.1.8 supports the English destructive-control labels described above.
@@ -140,6 +167,17 @@ private ChatGPT endpoint calls. The pending queue never leaves the browser.
 notes that deleting a ChatGPT Work conversation removes it from view and
 schedules deletion subject to the documented retention exceptions. Files stored
 separately in Library follow separate rules.
+
+## Project status and license
+
+This is a personal experimental project shared publicly so others can inspect
+the approach, testing, changes, and known limitations. It is not an official
+OpenAI product and is not affiliated with or endorsed by OpenAI.
+
+No open-source license is currently provided. The repository is published for
+transparency and personal-project reference, without a support commitment or
+warranty. Users are responsible for testing with disposable conversations and
+for the consequences of permanently deleting their own data.
 
 ## Project structure
 

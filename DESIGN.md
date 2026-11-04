@@ -12,6 +12,8 @@
 
 ## Non-goals
 
+- Supporting browsers other than Google Chrome desktop in this release.
+- Supporting chat products other than ChatGPT web at `chatgpt.com`.
 - Fetching conversations that ChatGPT has not loaded in the sidebar.
 - Bypassing ChatGPT's per-conversation confirmation.
 - Calling or reverse-engineering ChatGPT's private deletion APIs.
