@@ -20,6 +20,10 @@
   font: 14px/1.35 system-ui, sans-serif;
 }
 
+#cbd-panel[hidden] {
+  display: none !important;
+}
+
 #cbd-panel button,
 .cbd-modal button,
 .cbd-modal input {

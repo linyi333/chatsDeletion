@@ -33,6 +33,14 @@
 | `src/background.js` | Tab-scoped batch persistence across page refreshes. |
 | `src/main.js` | Composition and interrupted-batch recovery. |
 
+## Panel lifecycle
+
+The content script mounts the panel hidden. Chrome's extension-toolbar action
+sends a tab-scoped message that shows or hides it. **Exit selection** clears the
+current selection and hides the panel completely; the toolbar action can open it
+again. A confirmed batch that resumes after a ChatGPT refresh forces the panel
+visible so destructive progress and failures are not hidden.
+
 ## Deletion state machine
 
 For every selected conversation:

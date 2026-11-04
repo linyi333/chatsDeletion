@@ -8,6 +8,7 @@
       this.handlers = handlers;
       this.mode = false;
       this.busy = false;
+      this.visible = false;
       this.panel = null;
       this.count = null;
       this.status = null;
@@ -24,6 +25,7 @@
         ? chrome.runtime.getManifest().version
         : "dev";
       panel.id = "cbd-panel";
+      panel.hidden = root.location.protocol !== "file:";
       panel.setAttribute("aria-label", "ChatGPT bulk delete controls");
       panel.innerHTML = `
         <button class="cbd-primary" data-cbd-action="toggle">Select chats</button>
@@ -57,6 +59,12 @@
       this.count = panel.querySelector("[data-cbd-count]");
       this.status = panel.querySelector("[data-cbd-status]");
       this.deleteButton = panel.querySelector('[data-cbd-action="delete"]');
+      this.visible = !panel.hidden;
+    }
+
+    setVisible(visible) {
+      this.visible = Boolean(visible);
+      this.panel.hidden = !this.visible;
     }
 
     setMode(enabled) {

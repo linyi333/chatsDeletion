@@ -113,3 +113,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.tabs.onRemoved.addListener((tabId) => {
   chrome.storage.session.remove(storageKey(tabId));
 });
+
+chrome.action.onClicked.addListener((tab) => {
+  if (!Number.isInteger(tab.id)) {
+    return;
+  }
+
+  chrome.tabs.sendMessage(
+    tab.id,
+    { channel: "cbd-ui", action: "toggle" },
+    () => void chrome.runtime.lastError
+  );
+});

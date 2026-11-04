@@ -15,6 +15,7 @@ test("uses Manifest V3 with a narrowly scoped content script", () => {
   assert.deepEqual(manifest.permissions, ["storage"]);
   assert.equal(manifest.host_permissions, undefined);
   assert.equal(manifest.background.service_worker, "src/background.js");
+  assert.equal(manifest.action.default_title, "Show or hide ChatGPT Bulk Delete");
   assert.equal(manifest.version, packageJson.version);
 });
 

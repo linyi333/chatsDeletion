@@ -39,6 +39,7 @@
 
     selection.setMode(true);
     ui.setMode(true);
+    ui.setVisible(true);
     ui.setBusy(true);
     ui.setStatus("ChatGPT refreshed. Restoring the confirmed deletion batch…");
 
@@ -111,6 +112,9 @@
       selection.setMode(enabled);
       ui.setMode(enabled);
       ui.setSelection(selection.items());
+      if (!enabled) {
+        ui.setVisible(false);
+      }
     },
     onSelectAll: () => selection.selectAllLoaded(),
     onClear: () => selection.clear(),
@@ -126,5 +130,21 @@
 
   ui.mount();
   selection.start();
+  if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessage) {
+    chrome.runtime.onMessage.addListener((message) => {
+      if (!message || message.channel !== "cbd-ui" || message.action !== "toggle") {
+        return;
+      }
+
+      if (ui.visible) {
+        selection.setMode(false);
+        ui.setMode(false);
+        ui.setVisible(false);
+      } else {
+        ui.setVisible(true);
+        ui.setStatus("Select chats to begin.");
+      }
+    });
+  }
   resumePendingBatch();
 })(globalThis);

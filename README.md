@@ -4,7 +4,7 @@ A small, dependency-free Chrome Manifest V3 extension that adds conversation
 multi-selection to the ChatGPT web sidebar. It deletes the confirmed selection
 sequentially through ChatGPT's visible actions menu and confirmation dialog.
 
-Current version: **0.1.8**
+Current version: **0.1.9**
 
 > Deletion is permanent. Test with disposable conversations before using the
 > extension on anything important.
@@ -53,6 +53,7 @@ See [DESIGN.md](DESIGN.md) for the state machine and safety invariants.
 ## Features
 
 - Checkboxes aligned with ChatGPT conversation rows.
+- A toolbar-launched control panel that stays hidden until requested.
 - Individual selection and **Select loaded**.
 - Review list plus an exact typed `DELETE` confirmation.
 - One-at-a-time deletion; never parallel deletion.
@@ -73,18 +74,27 @@ See [DESIGN.md](DESIGN.md) for the state machine and safety invariants.
 3. Enable **Developer mode**.
 4. Select **Load unpacked** and choose this repository folder.
 5. Open or refresh `https://chatgpt.com/`.
+6. Pin **ChatGPT Bulk Delete** from Chrome's Extensions menu if you want its
+   button to remain visible in the toolbar.
 
-The control panel displays its version beside **Bulk delete**. Confirm that it
-shows **v0.1.8** after updating the extension.
+Select the extension's toolbar button to show or hide the control panel. The
+panel displays its version beside **Bulk delete**; confirm that it shows
+**v0.1.9** after updating the extension.
 
 ## Use
 
 1. Make sure the conversations you want are loaded in the ChatGPT sidebar.
-2. Select **Select chats** in the extension panel.
-3. Choose individual conversations or select all currently loaded rows.
-4. Select **Delete selected**.
-5. Review the titles, type `DELETE`, and confirm the batch.
-6. Keep the tab open while the extension processes the conversations.
+2. Select **ChatGPT Bulk Delete** in Chrome's extension toolbar.
+3. Select **Select chats** in the extension panel.
+4. Choose individual conversations or select all currently loaded rows.
+5. Select **Delete selected**.
+6. Review the titles, type `DELETE`, and confirm the batch.
+7. Keep the tab open while the extension processes the conversations.
+
+The panel is hidden by default. Select the toolbar button again to hide it, or
+use **Exit selection** to clear the selection and close the panel. A confirmed
+batch that survives a ChatGPT refresh reopens the panel so progress and errors
+remain visible.
 
 The extension automatically handles ChatGPT's separate confirmation for every
 conversation. Do not manually click ChatGPT's confirmation while a batch is
@@ -157,7 +167,7 @@ private ChatGPT endpoint calls. The pending queue never leaves the browser.
   scope for this version.
 - Only conversations currently loaded in the sidebar can be selected. The
   extension does not fetch or scroll through older history.
-- Version 0.1.8 supports the English destructive-control labels described above.
+- Version 0.1.9 supports the English destructive-control labels described above.
 - ChatGPT DOM, label, rate-limit, or account-policy changes can stop a batch.
 - Closing the tab or browser stops the batch and clears its tab-scoped state.
 - The extension cannot restore a deleted conversation.
