@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safe local bulk-delete harness</title>
+  <link rel="stylesheet" href="../src/styles.css">
+  <style>
+    body { margin: 0; font: 15px system-ui, sans-serif; background: #f7f7f8; color: #202123; }
+    main { max-width: 820px; margin: 40px auto; padding: 0 24px; }
+    nav { width: 330px; padding: 14px; border: 1px solid #ddd; border-radius: 12px; background: white; }
+    .mock-row { display: flex; align-items: center; min-height: 44px; margin: 4px 0; padding: 0 8px; border-radius: 8px; }
+    .mock-row a { flex: 1; padding: 12px 8px; color: inherit; text-decoration: none; }
+    .mock-row > button { border: 0; background: transparent; cursor: pointer; }
+    [role="menu"] { position: fixed; left: 360px; padding: 6px; border: 1px solid #ccc; border-radius: 8px; background: white; box-shadow: 0 8px 24px #0002; }
+    [role="menu"] button { display: block; min-width: 120px; padding: 8px; border: 0; background: white; color: #b42318; text-align: left; }
+    .mock-dialog { position: fixed; inset: 0; z-index: 99999; display: grid; place-items: center; background: #0008; }
+    .mock-dialog > div { width: 360px; padding: 20px; border-radius: 12px; background: white; }
+    .mock-dialog button { margin-right: 8px; padding: 8px 12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Safe local test harness</h1>
+    <p>These are fake conversations. Deleting them changes only this local page.</p>
+    <nav aria-label="Chat history">
+      <div class="mock-row">
+        <a href="https://chatgpt.com/c/11111111-1111-4111-8111-111111111111">Quarterly notes (fake)</a>
+        <button aria-label="Chat actions" aria-haspopup="menu">•••</button>
+      </div>
+      <div class="mock-row">
+        <a href="https://chatgpt.com/c/22222222-2222-4222-8222-222222222222">Old draft (fake)</a>
+        <button aria-label="Chat actions" aria-haspopup="menu">•••</button>
+      </div>
+      <div class="mock-row">
+        <a href="https://chatgpt.com/g/g-p-demo/c/33333333-3333-4333-8333-333333333333">Project chat (fake)</a>
+        <button aria-label="Chat actions" aria-haspopup="menu">•••</button>
+      </div>
+    </nav>
+  </main>
+
+  <script>
+    (() => {
+      let activeRow = null;
+
+      document.addEventListener("click", (event) => {
+        const action = event.target.closest('button[aria-label="Chat actions"]');
+        if (action) {
+          document.querySelector('[role="menu"]')?.remove();
+          activeRow = action.closest(".mock-row");
+          const menu = document.createElement("div");
+          menu.setAttribute("role", "menu");
+          menu.innerHTML = '<div data-fake-delete tabindex="-1"><span>Delete</span></div>';
+          document.body.appendChild(menu);
+          return;
+        }
+
+        const menuDelete = event.target.closest('[data-fake-delete]');
+        if (menuDelete && activeRow) {
+          menuDelete.closest('[role="menu"]').remove();
+          const dialog = document.createElement("div");
+          dialog.className = "mock-dialog";
+          dialog.setAttribute("role", "dialog");
+          dialog.innerHTML = `<div><h2>Delete chat?</h2><p>This fake chat will be removed from the local harness.</p><button>Cancel</button><button>Delete chat</button></div>`;
+          dialog.querySelectorAll("button")[0].addEventListener("click", () => dialog.remove());
+          dialog.querySelectorAll("button")[1].addEventListener("click", () => {
+            activeRow.remove();
+            activeRow = null;
+            dialog.remove();
+          });
+          document.body.appendChild(dialog);
+        }
+      });
+    })();
+  </script>
+  <script src="../src/core.js"></script>
+  <script src="../src/config.js"></script>
+  <script src="../src/dom.js"></script>
+  <script src="../src/batch.js"></script>
+  <script src="../src/selection.js"></script>
+  <script src="../src/deletion.js"></script>
+  <script src="../src/ui.js"></script>
+  <script src="../src/main.js"></script>
+</body>
+</html>

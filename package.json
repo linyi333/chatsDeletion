@@ -1,0 +1,10 @@
+{
+  "name": "chatgpt-bulk-delete-extension",
+  "version": "0.1.8",
+  "private": true,
+  "description": "Minimal Manifest V3 extension for confirmed sequential ChatGPT conversation deletion.",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/background.js && node --check src/core.js && node --check src/config.js && node --check src/dom.js && node --check src/batch.js && node --check src/selection.js && node --check src/deletion.js && node --check src/ui.js && node --check src/main.js"
+  }
+}

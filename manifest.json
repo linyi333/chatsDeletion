@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Bulk Delete",
+  "version": "0.1.8",
+  "description": "Select multiple ChatGPT conversations and delete them safely through ChatGPT's own UI.",
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "css": ["src/styles.css"],
+      "js": [
+        "src/core.js",
+        "src/config.js",
+        "src/dom.js",
+        "src/batch.js",
+        "src/selection.js",
+        "src/deletion.js",
+        "src/ui.js",
+        "src/main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
